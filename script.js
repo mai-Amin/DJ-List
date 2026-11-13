@@ -54,7 +54,7 @@ const deleteModalDesc = document.getElementById("delete-modal-desc");
 const deleteConfirmBtn = document.getElementById("delete-confirm-btn");
 const deleteCancelBtn = document.getElementById("delete-cancel-btn");
 
-const ADMIN_PASS = "13579ِAdmin"; // كلمة مرور الأدمن
+const ADMIN_PASS = "13579"; // كلمة مرور الأدمن
 let songRequests = [];
 let isAdmin = sessionStorage.getItem("is-admin") === "true";
 let toastTimer;
