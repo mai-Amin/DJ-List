@@ -1,3 +1,34 @@
+// استيراد الدوال الحديثة من مكتبة Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
+import { 
+  getFirestore, 
+  collection, 
+  addTimestamp, // غير مستخدمة مباشرة لكن كمرجع
+  addDoc, 
+  deleteDoc, 
+  doc, 
+  onSnapshot, 
+  query, 
+  orderBy 
+} from "https://www.gstatic.com/firebasejs/13.3.0/firebase-firestore.js";
+
+// إعدادات Firebase الخاصة بكِ
+const firebaseConfig = {
+  apiKey: "AIzaSyCJJQbfPe1H9R-x16_4NJ1YOZ2mo2iXY2A",
+  authDomain: "dj-list-8f546.firebaseapp.com",
+  projectId: "dj-list-8f546",
+  storageBucket: "dj-list-8f546.firebasestorage.app",
+  messagingSenderId: "421085765811",
+  appId: "1:421085765811:web:f288a41239ea27dc11d0c6",
+  measurementId: "G-YN1KPY8DF2"
+};
+
+// تهيئة Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const db = getFirestore(app); // ربط قاعدة البيانات
+
 const form = document.getElementById("song-form");
 const songsInput = document.getElementById("songs");
 const nameInput = document.getElementById("guest-name");
@@ -24,10 +55,8 @@ const deleteModalDesc = document.getElementById("delete-modal-desc");
 const deleteConfirmBtn = document.getElementById("delete-confirm-btn");
 const deleteCancelBtn = document.getElementById("delete-cancel-btn");
 
-const STORAGE_KEY = "our-night-song-requests";
-const ADMIN_PASS = "13579Admin"; // كلمة مرور الأدمن
-
-let songRequests = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+const ADMIN_PASS = "1234"; // كلمة مرور الأدمن
+let songRequests = [];
 let isAdmin = sessionStorage.getItem("is-admin") === "true";
 let toastTimer;
 
@@ -42,7 +71,6 @@ function updateAdminUI() {
   }
 }
 
-// زر الأدمن الرئيسي
 if (adminToggle) {
   adminToggle.addEventListener("click", () => {
     if (isAdmin) {
@@ -53,7 +81,6 @@ if (adminToggle) {
       updateAdminUI();
       renderSongs();
     } else {
-      // إظهار نافذة تسجيل الدخول الخاصة بالأدمن فقط
       adminPasswordInput.value = "";
       adminModal.classList.add("show");
       setTimeout(() => adminPasswordInput.focus(), 50);
@@ -61,7 +88,6 @@ if (adminToggle) {
   });
 }
 
-// أحداث نافذة تسجيل الدخول
 adminCancelBtn.addEventListener("click", () => {
   adminModal.classList.remove("show");
 });
@@ -92,10 +118,6 @@ function normalizeSong(song) {
   return song.trim().toLocaleLowerCase().replace(/\s+/g, " ");
 }
 
-function saveSongs() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(songRequests));
-}
-
 function showToast(title, message, isDuplicate = false) {
   clearTimeout(toastTimer);
   toastTitle.textContent = title;
@@ -112,6 +134,16 @@ function showToast(title, message, isDuplicate = false) {
 toastClose.addEventListener("click", () => {
   clearTimeout(toastTimer);
   toast.classList.remove("show");
+});
+
+// --- الاستماع للتغييرات لحظياً (Real-time) بالطريقة الحديثة ---
+const q = query(collection(db, "songs"), orderBy("addedAt", "asc"));
+onSnapshot(q, (snapshot) => {
+  songRequests = [];
+  snapshot.forEach((doc) => {
+    songRequests.push({ id: doc.id, ...doc.data() });
+  });
+  renderSongs();
 });
 
 function renderSongs() {
@@ -162,22 +194,23 @@ function renderSongs() {
       deleteButton.title = "Remove song";
       
       deleteButton.addEventListener("click", () => {
-        // إعداد وتفعيل نافذة الحذف المنفصلة الخاصة بالأغاني فقط
         deleteModalDesc.textContent = `Are you sure you want to remove "${request.song}" from the playlist?`;
         deleteModal.classList.add("show");
 
-        // تنظيف الحدث القديم لزر التأكيد الخاص بالحذف
         const newDeleteBtn = deleteConfirmBtn.cloneNode(true);
         deleteConfirmBtn.parentNode.replaceChild(newDeleteBtn, deleteConfirmBtn);
         const activeDeleteBtn = document.getElementById("delete-confirm-btn");
 
-        activeDeleteBtn.addEventListener("click", () => {
+        activeDeleteBtn.addEventListener("click", async () => {
           deleteModal.classList.remove("show");
-          songRequests.splice(index, 1);
-          saveSongs();
-          renderSongs();
-          feedback.textContent = "Song removed from the list.";
-          showToast("Song removed", `"${request.song}" has been removed from the playlist.`, true);
+          try {
+            // الحذف بالطريقة الحديثة
+            await deleteDoc(doc(db, "songs", request.id));
+            feedback.textContent = "Song removed from the list.";
+            showToast("Song removed", `"${request.song}" has been removed from the playlist.`, true);
+          } catch (error) {
+            console.error("Error removing document: ", error);
+          }
         });
       });
 
@@ -190,12 +223,11 @@ function renderSongs() {
   });
 }
 
-// زر الإلغاء لنافذة الحذف
 deleteCancelBtn.addEventListener("click", () => {
   deleteModal.classList.remove("show");
 });
 
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
   const submittedSongs = songsInput.value
@@ -225,15 +257,20 @@ form.addEventListener("submit", (event) => {
   const name = nameInput.value.trim();
 
   if (addedSongs.length > 0) {
-    const newRequests = addedSongs.map(song => ({
-      song,
-      name,
-      addedAt: new Date().toISOString()
-    }));
+    try {
+      // الإضافة بالطريقة الحديثة لـ Firebase
+      const batchPromises = addedSongs.map(song => {
+        return addDoc(collection(db, "songs"), {
+          song,
+          name,
+          addedAt: new Date().toISOString()
+        });
+      });
 
-    songRequests = [...songRequests, ...newRequests];
-    saveSongs();
-    renderSongs();
+      await Promise.all(batchPromises);
+    } catch (error) {
+      console.error("Error adding documents: ", error);
+    }
   }
 
   songsInput.value = "";
@@ -262,4 +299,3 @@ form.addEventListener("submit", (event) => {
 });
 
 updateAdminUI();
-renderSongs();
