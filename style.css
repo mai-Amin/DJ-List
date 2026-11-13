@@ -1,0 +1,316 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --page: #19121f;
+  --card: #281d30;
+  --field: #19121f;
+  --border: #40304b;
+  --purple: #b987e8;
+  --purple-light: #d0a8f4;
+  --text: #fff8ff;
+  --muted: #c5b1d8;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 34px 18px 28px;
+  background: var(--page);
+  color: var(--text);
+  font-family: "DM Sans", Arial, sans-serif;
+}
+
+.page {
+  width: min(100%, 680px);
+  margin: 0 auto;
+}
+
+.hero {
+  padding: 34px 28px 28px;
+  margin-bottom: 23px;
+  text-align: center;
+  border-radius: 24px;
+  background: linear-gradient(125deg, #63339a, #a16bd0);
+  box-shadow: 0 14px 40px #09060d55;
+}
+
+.hearts {
+  color: #e4c9fa;
+  font-size: 19px;
+  letter-spacing: 12px;
+  margin-bottom: 17px;
+}
+
+.hearts span {
+  color: white;
+  font-size: 31px;
+  vertical-align: -3px;
+}
+
+.eyebrow {
+  margin: 0 0 9px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+h1, h2 {
+  font-family: "Playfair Display", Georgia, serif;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(32px, 6vw, 45px);
+  line-height: 1.2;
+}
+
+.hero-copy {
+  max-width: 540px;
+  margin: 16px auto 0;
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.form-card {
+  padding: 22px 21px 18px;
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  background: var(--card);
+}
+
+h2 {
+  margin: 0;
+  font-size: 25px;
+}
+
+.hint {
+  margin: 8px 0 13px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+label {
+  display: block;
+  margin: 17px 0 8px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+label span {
+  font-weight: 400;
+}
+
+textarea, input {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  outline: none;
+  background: var(--field);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+textarea {
+  min-height: 145px;
+  padding: 14px 15px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+input {
+  padding: 15px;
+}
+
+textarea:focus, input:focus {
+  border-color: var(--purple);
+  box-shadow: 0 0 0 3px #b987e822;
+}
+
+textarea::placeholder, input::placeholder {
+  color: #81738d;
+}
+
+.add-button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  border: 0;
+  border-radius: 13px;
+  background: var(--purple);
+  color: #21142c;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform .15s, background .15s;
+}
+
+.add-button:hover {
+  background: var(--purple-light);
+  transform: translateY(-1px);
+}
+
+.feedback {
+  min-height: 20px;
+  margin: 11px 0 0;
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+}
+
+.song-section {
+  margin-top: 36px;
+}
+
+.list-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+.count {
+  padding: 5px 10px;
+  border-radius: 20px;
+  background: #30223a;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.list-hint {
+  margin: -7px 0 13px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.song-list {
+  display: grid;
+  gap: 10px;
+}
+
+.empty-state {
+  padding: 24px 12px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.song-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 15px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #241a2b;
+}
+
+.song-number {
+  display: grid;
+  flex: 0 0 36px;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border-radius: 11px;
+  background: #3b2948;
+  color: var(--purple-light);
+  font-weight: 700;
+}
+
+.song-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.song-title {
+  overflow-wrap: anywhere;
+  font-weight: 600;
+}
+
+.song-requester {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.spotify-link {
+  flex: 0 0 auto;
+  padding: 8px 10px;
+  border: 1px solid #594169;
+  border-radius: 9px;
+  color: var(--purple-light);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.spotify-link:hover {
+  background: #3a2947;
+}
+
+.song-actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+}
+
+.delete-button {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid #69404f;
+  border-radius: 9px;
+  background: transparent;
+  color: #f0a1b2;
+  font-size: 17px;
+  cursor: pointer;
+  transition: background .2s, border-color .2s;
+}
+
+.delete-button:hover {
+  border-color: #d66b86;
+  background: #542b3a;
+}
+
+footer {
+  padding: 34px 10px 8px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.footer-heart {
+  color: var(--purple);
+  font-size: 25px;
+}
+
+footer p {
+  margin: 8px 0 0;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 520px) {
+  body { padding: 18px 12px 24px; }
+  .hero { padding: 29px 18px 25px; border-radius: 19px; }
+  .hero-copy { font-size: 15px; }
+  .form-card { padding: 19px 15px 14px; }
+  .song-item { gap: 9px; padding: 11px; }
+  .spotify-link { padding: 7px 8px; font-size: 11px; }
+}

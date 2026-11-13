@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#19121f">
+  <title>Our Night – Song Requests</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <span id="toast-icon" class="toast-icon">✓</span>
+    <div class="toast-content">
+      <strong id="toast-title">Songs added!</strong>
+      <span id="toast-message">Your requests are now on the list.</span>
+    </div>
+    <button id="toast-close" class="toast-close" type="button" aria-label="Close notification">×</button>
+  </div>
+
+  <main class="page">
+    <header class="hero">
+      <div class="hearts" aria-hidden="true">♥ <span>♥</span> ♥</div>
+      <p class="eyebrow">LET'S MAKE SOME MEMORIES</p>
+      <h1>Your Night, Our Playlist</h1>
+      <p class="hero-copy">Help us build the DJ's playlist. Add the songs you'd love to hear and dance to!</p>
+    </header>
+
+    <section class="form-card" aria-labelledby="form-title">
+      <h2 id="form-title">Add your songs</h2>
+      <p class="hint">Type one song per line. Add as many as you like.</p>
+      <form id="song-form">
+        <label class="sr-only" for="songs">Song names</label>
+        <textarea id="songs" rows="5" placeholder="Perfect – Ed Sheeran&#10;Can't Help Falling in Love&#10;Shut Up and Dance" required></textarea>
+
+        <label for="guest-name">Your name <span>(optional)</span></label>
+        <input id="guest-name" type="text" maxlength="40" placeholder="So we know who to thank">
+
+        <button type="submit" class="add-button">Add songs <span aria-hidden="true">♪</span></button>
+        <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="song-section" aria-labelledby="list-title">
+      <div class="list-heading">
+        <h2 id="list-title">Song list</h2>
+        <span id="song-count" class="count">0 songs</span>
+      </div>
+      <p class="list-hint">You can remove any song you don't want to keep.</p>
+      <div id="song-list" class="song-list">
+        <p class="empty-state">No songs yet. Be the first! ♡</p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-heart">♥</div>
+      <p>Thank you for being part of our night.</p>
+    </footer>
+  </main>
+
+  <button id="admin-toggle" type="button">Admin Login</button>
+  <script src="script.js"></script>
+</body>
+</html>
