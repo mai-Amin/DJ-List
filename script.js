@@ -1,10 +1,9 @@
-// استيراد الدوال الحديثة من مكتبة Firebase
+// استيراد الدوال الصحيحة فقط من مكتبة Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/13.3.0/firebase-analytics.js";
 import { 
   getFirestore, 
   collection, 
-  addTimestamp, // غير مستخدمة مباشرة لكن كمرجع
   addDoc, 
   deleteDoc, 
   doc, 
@@ -27,7 +26,7 @@ const firebaseConfig = {
 // تهيئة Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
-const db = getFirestore(app); // ربط قاعدة البيانات
+const db = getFirestore(app);
 
 const form = document.getElementById("song-form");
 const songsInput = document.getElementById("songs");
@@ -136,7 +135,7 @@ toastClose.addEventListener("click", () => {
   toast.classList.remove("show");
 });
 
-// --- الاستماع للتغييرات لحظياً (Real-time) بالطريقة الحديثة ---
+// الاستماع للتغييرات لحظياً من قاعدة البيانات
 const q = query(collection(db, "songs"), orderBy("addedAt", "asc"));
 onSnapshot(q, (snapshot) => {
   songRequests = [];
@@ -204,7 +203,6 @@ function renderSongs() {
         activeDeleteBtn.addEventListener("click", async () => {
           deleteModal.classList.remove("show");
           try {
-            // الحذف بالطريقة الحديثة
             await deleteDoc(doc(db, "songs", request.id));
             feedback.textContent = "Song removed from the list.";
             showToast("Song removed", `"${request.song}" has been removed from the playlist.`, true);
@@ -258,7 +256,6 @@ form.addEventListener("submit", async (event) => {
 
   if (addedSongs.length > 0) {
     try {
-      // الإضافة بالطريقة الحديثة لـ Firebase
       const batchPromises = addedSongs.map(song => {
         return addDoc(collection(db, "songs"), {
           song,
