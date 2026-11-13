@@ -4,10 +4,10 @@ const nameInput = document.getElementById("guest-name");
 const songList = document.getElementById("song-list");
 const songCount = document.getElementById("song-count");
 const feedback = document.getElementById("feedback");
-const adminToggle = document.getElementById("admin-toggle"); // الزر الجديد
+const adminToggle = document.getElementById("admin-toggle"); 
 
 const STORAGE_KEY = "our-night-song-requests";
-const ADMIN_PASS = "1234"; // كلمة مرور الأدمن (غيّريها كما تحبين)
+const ADMIN_PASS = "13579Admin";
 
 let songRequests = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 let isAdmin = sessionStorage.getItem("is-admin") === "true"; // التحقق من حالة الأدمن
