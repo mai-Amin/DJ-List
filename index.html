@@ -11,6 +11,11 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <!-- زر دخول الأدمن -->
+  <div class="admin-wrapper">
+    <button id="admin-toggle" class="admin-toggle-btn" type="button">Admin Login 🔒</button>
+  </div>
+
   <div id="toast" class="toast" role="status" aria-live="polite">
     <span id="toast-icon" class="toast-icon">✓</span>
     <div class="toast-content">
@@ -48,7 +53,6 @@
         <h2 id="list-title">Song list</h2>
         <span id="song-count" class="count">0 songs</span>
       </div>
-      <p class="list-hint">You can remove any song you don't want to keep.</p>
       <div id="song-list" class="song-list">
         <p class="empty-state">No songs yet. Be the first! ♡</p>
       </div>
@@ -60,7 +64,32 @@
     </footer>
   </main>
 
-  <button id="admin-toggle" type="button">Admin Login</button>
+<!-- 1. نافذة تسجيل دخول الأدمن المنفصلة -->
+  <div id="admin-modal" class="modal-overlay">
+    <div class="modal-card">
+      <h3>Admin Login</h3>
+      <p>Please enter the admin password to continue:</p>
+      <input id="admin-password-input" type="password" placeholder="Enter password..." />
+      <div class="modal-actions">
+        <button id="admin-cancel-btn" type="button" class="modal-btn cancel">Cancel</button>
+        <button id="admin-confirm-btn" type="button" class="modal-btn confirm">Login</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. نافذة تأكيد حذف الأغنية المنفصلة -->
+  <div id="delete-modal" class="modal-overlay">
+    <div class="modal-card">
+      <h3>Delete Song</h3>
+      <p id="delete-modal-desc">Are you sure you want to remove this song from the playlist?</p>
+      <div class="modal-actions">
+        <button id="delete-cancel-btn" type="button" class="modal-btn cancel">Cancel</button>
+        <button id="delete-confirm-btn" type="button" class="modal-btn confirm danger">Delete</button>
+      </div>
+    </div>
+  </div>
+
+
   <script src="script.js"></script>
 </body>
 </html>
